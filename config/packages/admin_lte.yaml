@@ -28,5 +28,14 @@ admin_lte:
 
   routes:
     adminlte_welcome: home
-    adminlte_login: login
-    adminlte_profile: profile
+    adminlte_login: fos_user_security_login
+    adminlte_login_check: fos_user_security_check
+    adminlte_registration: fos_user_registration_register
+    adminlte_password_reset: fos_user_resetting_request
+    adminlte_profile: fos_user_profile_show
+    adminlte_message: home
+    adminlte_messages: home
+    adminlte_notification: home
+    adminlte_notifications: home
+    adminlte_task: home
+    adminlte_tasks: home

@@ -113,6 +113,9 @@
     "fig/link-util": {
         "version": "1.0.0"
     },
+    "friendsofsymfony/user-bundle": {
+        "version": "v2.1.2"
+    },
     "hoa/compiler": {
         "version": "3.17.08.08"
     },
@@ -515,6 +518,9 @@
             "config/packages/swiftmailer.yaml",
             "config/packages/test/swiftmailer.yaml"
         ]
+    },
+    "symfony/templating": {
+        "version": "v4.3.2"
     },
     "symfony/test-pack": {
         "version": "v1.0.6"

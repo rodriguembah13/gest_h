@@ -1,3 +1,11 @@
+#controllers:
+#    resource: '../src/Controller/'
+#    type: annotation
+#    prefix: /{_locale}
+#    requirements:
+#        _locale: '%app_locales%'
+#    defaults:
+#        _locale: 'en'
 controllers:
     resource: '../src/Controller/'
     type: annotation
@@ -5,11 +13,18 @@ controllers:
     requirements:
         _locale: '%app_locales%'
     defaults:
-        _locale: 'en'
+        _locale: '%locale%'
 
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
 home:
-    path: /
+    path: /{_locale}
     controller: App\Controller\DefaultController::index
+
+fos_user_security:
+    prefix: /{_locale}
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+#fos_user:
+#    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

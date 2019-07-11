@@ -1,21 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: smartworld
- * Date: 7/10/19
- * Time: 2:50 PM
+
+/*
+ * This file is part of the AdminLTE-Bundle demo.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 
-namespace App\EventListener;
+namespace App\EventSubscriber;
 
 use KevinPapst\AdminLTEBundle\Event\KnpMenuEvent;
+use KevinPapst\AdminLTEBundle\Event\ThemeEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-class KnpMenuBuilderListener
+
+/**
+ * Class KnpMenuBuilderSubscriber configures the main navigation utilizing the KnpMenuBundle.
+ */
+class KnpMenuBuilderSubscriber implements EventSubscriberInterface
 {
     /**
      * @var AuthorizationCheckerInterface
      */
     private $security;
+
     /**
      * @param AuthorizationCheckerInterface $security
      */
@@ -24,7 +32,22 @@ class KnpMenuBuilderListener
         $this->security = $security;
     }
 
-    public function onSetupMenu(KnpMenuEvent $event)
+    /**
+     * @return array
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            ThemeEvents::THEME_SIDEBAR_SETUP_KNP_MENU => ['onSetupNavbar', 100],
+        ];
+    }
+
+    /**
+     * Generate the main menu.
+     *
+     * @param KnpMenuEvent $event
+     */
+    public function onSetupNavbar(KnpMenuEvent $event)
     {
         $menu = $event->getMenu();
 
@@ -39,7 +62,7 @@ class KnpMenuBuilderListener
             'childOptions' => $event->getChildOptions()
         ])->setLabelAttribute('icon', 'fas fa-tachometer-alt');
 
-       $menu->getChild('hotel')->addChild('hotel', [
+        $menu->getChild('hotel')->addChild('hotel', [
             'route' => 'hotel_edit',
             'label' => 'ChildOneDisplayName1',
             'childOptions' => $event->getChildOptions()
@@ -49,12 +72,6 @@ class KnpMenuBuilderListener
             'label' => 'ChildOneDisplayName',
             'childOptions' => $event->getChildOptions()
         ])->setLabelAttribute('icon', 'fas fa-rss-square');
- /*
-        $menu->getChild('blogId')->addChild('ChildTwoItemId', [
-            'route' => 'child_2_route',
-            'label' => 'ChildTwoDisplayName',
-            'childOptions' => $event->getChildOptions()
-        ]);*/
         if ($this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $menu->addChild(
                 'logout',
